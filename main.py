@@ -5,8 +5,11 @@ import face_recognition
 
 img = face_recognition.load_image_file('data/MukeshAmbaniImage1.jpg')
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-img_test = face_recognition.load_image_file('data/RatanTataImage1.jpg')
+img = cv2.resize(img, (640, 640))
+# img_test = face_recognition.load_image_file('data/RatanTataImage1.jpg')
+img_test = face_recognition.load_image_file('data/MukeshAmbaniImage2.jpg')
 img_test = cv2.cvtColor(img_test, cv2.COLOR_BGR2RGB)
+img_test = cv2.resize(img_test, (640, 640))
 
 face_locations = face_recognition.face_locations(img)[0]
 encode_locations = face_recognition.face_encodings(img)[0]
