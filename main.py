@@ -25,6 +25,18 @@ cv2.rectangle(
 face_locations_test = face_recognition.face_locations(img_test)[0]
 encode_locations_test = face_recognition.face_encodings(img_test)[0]
 
+
+results = face_recognition.compare_faces(
+    [encode_locations],
+    encode_locations_test
+)[0]
+
+face_distance = face_recognition.face_distance(
+    [encode_locations],
+    encode_locations_test
+)[0]
+
+
 cv2.rectangle(
     img_test,
     (face_locations_test[3], face_locations_test[0]),
@@ -33,12 +45,15 @@ cv2.rectangle(
     2
 )
 
-
-results = face_recognition.compare_faces([encode_locations], encode_locations_test)
-print(results)
-
-face_distance = face_recognition.face_distance([encode_locations], encode_locations_test)
-print(face_distance)
+cv2.putText(
+    img_test,
+    f'{results} {round(face_distance, 2)}',
+    (face_locations_test[3], face_locations_test[0]),
+    cv2.FONT_HERSHEY_COMPLEX,
+    1,
+    (0, 255, 0),
+    2
+)
 
 cv2.imshow('Mukesh Ambani - Train', img)
 cv2.imshow('Mukesh Ambani - Test', img_test)
