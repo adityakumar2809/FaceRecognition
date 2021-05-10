@@ -26,8 +26,14 @@ def getFaceDetectionPrediction(folder_path=None, facial_data_df=None):
                     [label_face_encoding],
                     face_encodings
                 )
+                face_compare_result =  face_recognition.compare_faces(
+                    [label_face_encoding],
+                    face_encodings
+                )
                 if len(face_distance) > 0:
                     face_distance = face_distance[0]
+                    if not face_compare_result[0] == True:
+                        continue
                     if face_distance < min_face_distance:
                         min_face_distance = face_distance
                         min_face_label = label
@@ -51,6 +57,7 @@ def main():
 
     cm = confusion_matrix(y_true, y_pred)
     print(cm)
+
 
 if __name__ == '__main__':
     main()
