@@ -5,7 +5,7 @@ import face_recognition
 
 img = face_recognition.load_image_file('data/MukeshAmbaniImage1.jpg')
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-img_test = face_recognition.load_image_file('data/MukeshAmbaniImage2.jpg')
+img_test = face_recognition.load_image_file('data/RatanTataImage1.jpg')
 img_test = cv2.cvtColor(img_test, cv2.COLOR_BGR2RGB)
 
 face_locations = face_recognition.face_locations(img)[0]
@@ -29,6 +29,10 @@ cv2.rectangle(
     (0, 255, 0),
     2
 )
+
+
+results = face_recognition.compare_faces([encode_locations], encode_locations_test)
+print(results)
 
 cv2.imshow('Mukesh Ambani - Train', img)
 cv2.imshow('Mukesh Ambani - Test', img_test)
