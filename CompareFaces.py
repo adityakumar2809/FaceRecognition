@@ -5,6 +5,7 @@ import pickle
 import numpy as np
 import pandas as pd
 import face_recognition
+import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 
 
@@ -44,6 +45,20 @@ def getFaceDetectionPrediction(folder_path=None, facial_data_df=None):
     return y_pred
 
 
+def plotConfusionMatrix(labels, y_true, y_pred):
+    cm = confusion_matrix(y_true, y_pred, labels)
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    cax = ax.matshow(cm)
+    plt.title('Confusion Matrix')
+    fig.colorbar(cax)
+    ax.set_xticklabels([''] + labels)
+    ax.set_yticklabels([''] + labels)
+    plt.xlabel('Predicted')
+    plt.ylabel('True')
+    plt.show()
+
+
 def main():
     test_folder = 'data/test'
     labels = os.listdir(test_folder)
@@ -55,8 +70,7 @@ def main():
         y_pred += getFaceDetectionPrediction(folder_path, facial_data_df)
         y_true += [label for i in range(len(os.listdir(folder_path)))]
 
-    cm = confusion_matrix(y_true, y_pred)
-    print(cm)
+    plotConfusionMatrix(labels, y_true, y_pred)
 
 
 if __name__ == '__main__':
