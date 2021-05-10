@@ -34,6 +34,9 @@ cv2.rectangle(
 results = face_recognition.compare_faces([encode_locations], encode_locations_test)
 print(results)
 
+face_distance = face_recognition.face_distance([encode_locations], encode_locations_test)
+print(face_distance)
+
 cv2.imshow('Mukesh Ambani - Train', img)
 cv2.imshow('Mukesh Ambani - Test', img_test)
 cv2.waitKey(0)
