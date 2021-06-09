@@ -14,12 +14,14 @@ def getFaceDetectionPrediction(folder_path=None, facial_data_df=None):
         print('Insufficient Data Specified!')
         sys.exit(0)
     y_pred = []
-    for img_name in os.listdir(folder_path):
+    for img_counter, img_name in enumerate(os.listdir(folder_path)):
         img = face_recognition.load_image_file(f'{folder_path}/{img_name}')
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         face_encodings = face_recognition.face_encodings(img)
+        face_locations = face_recognition.face_locations(img)
         if len(face_encodings) > 0:
             face_encodings = face_encodings[0]
+            face_locations = face_locations[0]
             min_face_distance = 1
             min_face_label = 'invalid'
             for label, label_face_encoding in facial_data_df.items():
@@ -39,6 +41,23 @@ def getFaceDetectionPrediction(folder_path=None, facial_data_df=None):
                         min_face_distance = face_distance
                         min_face_label = label
             y_pred.append(min_face_label)
+            cv2.rectangle(
+                img,
+                (face_locations[3], face_locations[0]),
+                (face_locations[1], face_locations[2]),
+                (0, 255, 0),
+                2
+            )
+            cv2.putText(
+                img,
+                min_face_label,
+                (face_locations[3], face_locations[0]),
+                cv2.FONT_HERSHEY_COMPLEX,
+                1,
+                (0, 255, 0),
+                2
+            )
+            cv2.imwrite(f'results/images/{min_face_label}_{img_counter}.jpg', img)
         else:
             y_pred.append('invalid')
 
